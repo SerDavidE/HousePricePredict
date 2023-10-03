@@ -1,46 +1,48 @@
-## Predicting Housing Prices: Phase 2 - Regression
+### Predicting Housing Prices: Phase 2 - Regression
 
-### Objective:
-In the second phase of the project, the focus shifts to predicting the exact price of a house. This is a regression task where the target variable is continuous, representing house prices in dollars.
+#### Objective:
+In the second phase of the project, the primary goal was to create models that predict the exact price of houses. This phase dealt with a regression task where the target variable was the exact prices of the houses in dollars.
 
-### Data:
-The dataset encompasses various features associated with housing, including the type of dwelling, zoning classification, area, quality of different amenities, and many more, amounting to 81 columns.
+#### Data:
+The dataset used contained various housing attributes, totaling 81 columns. These attributes captured information on dwelling type, zoning classification, area, quality of diverse amenities, and more.
 
-### Preprocessing & Feature Engineering:
-- **Handled missing values**:
+#### Preprocessing & Feature Engineering:
+- **Handling Missing Values**:
   - Numerical columns: Median imputation was employed.
-  - Categorical columns: The most frequent value was utilized for imputation.
+  - Categorical columns: Missing values were filled using a constant value 'missing'.
 - **Encoding & Scaling**:
-  - One-hot encoded categorical features.
-  - Scaled numerical features using the StandardScaler.
-- **Feature Selection**:
-  - Three distinct methods were examined: VarianceThreshold, SelectKBest, and RFECV.
+  - Categorical features underwent one-hot encoding.
+  - Numerical features were standardized using the StandardScaler.
 
-### Model Building & Evaluation:
-- **Gradient Boosting Regressor**: This model was chosen for its capacity to handle complex datasets and its ability to provide accurate predictions.
-- **Performance Metrics**:
-  - R-squared (\( R^2 \)) was employed to evaluate the model's explanatory power.
-  - MAPE (Mean Absolute Percentage Error) was used to understand prediction accuracy.
-- **Models and their performance**:
-  - **Initial Models**:
-    - VarianceThreshold: \( R^2 = 0.900 \), MAPE = 0.099
-    - SelectKBest: \( R^2 = 0.890 \), MAPE = 0.108
-    - RFECV: \( R^2 = 0.910 \), MAPE = 0.099
-  - **After PCA**:
-    - VarianceThreshold: \( R^2 = 0.894 \), MAPE = 0.107
-    - SelectKBest: \( R^2 = 0.894 \), MAPE = 0.112
-    - RFECV: \( R^2 = 0.879 \), MAPE = 0.105
-  - **After Hyperparameter Tuning**:
-    - VarianceThreshold: \( R^2 = 0.898 \), MAPE = 0.105
-    - SelectKBest: \( R^2 = 0.881 \), MAPE = 0.116
-    - RFECV: \( R^2 = 0.900 \), MAPE = 0.099
+#### Feature Selection:
+Multiple feature selection methods were explored:
+- VarianceThreshold
+- SelectKBest
+- RFECV (Recursive Feature Elimination with Cross-Validation)
+- SelectFromModel
 
-### Hyperparameter Tuning:
-- **Random Search** and **Grid Search** methods were utilized to identify optimal hyperparameters for the Gradient Boosting Regressor.
-- The best hyperparameters were determined for each feature selection method.
+#### Model Building & Evaluation:
+The primary model used for regression was the Random Forest Regressor. This model was trained on datasets processed by each of the feature selection methods mentioned above.
+
+- Performance metrics employed for evaluation:
+  - Root Mean Square Error (RMSE)
+  - R-squared (\( R^2 \))
+
+A snapshot of the models' performance:
+- VarianceThreshold: RMSE \( \approx \) 26,887, \( R^2 \approx \) 0.896
+- SelectKBest: RMSE \( \approx \) 28,323, \( R^2 \approx \) 0.885
+- RFECV: RMSE \( \approx \) 26,307, \( R^2 \approx \) 0.901
+- SelectFromModel: RMSE \( \approx \) 27,143, \( R^2 \approx \) 0.894
+
+#### Hyperparameter Tuning:
+Grid Search was applied to the Random Forest Regressor to find the optimal set of hyperparameters. The best parameters identified across the feature selection methods were:
+- `max_depth`: None
+- `min_samples_leaf`: 2
+- `min_samples_split`: 2
+- `n_estimators`: 100
 
 ### Error Analysis:
 - Additional regression metrics such as RMSE (Root Mean Square Error), MAE (Mean Absolute Error), and MBD (Mean Bias Deviation) were employed to provide a deeper understanding of model errors.
 
-### Conclusion:
-The RFECV model consistently emerged as the top performer across different stages of the project. It not only demonstrated the highest \( R^2 \) but also showcased the lowest MAPE, marking it as the most accurate and well-calibrated model for this regression task.
+#### Conclusion:
+The model trained with features selected using RFECV performed the best in terms of RMSE and \( R^2 \). However, the differences in performance across the models were not substantial. In real-world scenarios, the choice of model could also consider factors like computational efficiency, interpretability, and ease of deployment.
